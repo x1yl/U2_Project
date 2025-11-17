@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game {
@@ -39,10 +40,46 @@ public class Game {
         //a while loop that runs for 20 days or whenever the player dies
         //Shows the day and player info
         //Option to explore or rest
+        while (day <= 20 && health != 0) {
+            System.out.println("Day: " + day + " Player info: Health " + health + "/" + maxHealth + " Attack damage " + attack);
+            showInventory();
+            day++;
+        }
 
         // only if the player is alive after the 20th day spawn a boss battle
 
         //Show player their stats after the game ends
+    }
+
+    private void showInventory() {
+        inventory.add("stuff");
+        inventory.add("stuff");
+        inventory.add("stuff");
+        inventory.add("stuff");
+        inventory.add("other stuff");
+        inventory.add("other stuff");
+        inventory.add("other stuff");
+        inventory.add("other stuf");
+        int n = inventory.toArray().length;
+        String[] items = new String[n];
+        System.out.println("Inventory: ");
+        for (int i = 0; i < inventory.toArray().length; i++) {
+            String item = inventory.get(i);
+            if (!Arrays.asList(items).contains(item)) {
+
+                int count = 0;
+
+                for (int j = 0; j < inventory.toArray().length; j++) {
+                    if (item.equals(inventory.get(i))) {
+                        count++;
+                    }
+                }
+
+                System.out.println(item + "(" + count + ")");
+                items[i] = item;
+
+            }
+        }
     }
 
 }
