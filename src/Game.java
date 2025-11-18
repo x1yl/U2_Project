@@ -3,10 +3,14 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game {
-    private String playerName, difficulty;
-    private int health, maxHealth, attack, day;
-    private ArrayList<String> inventory;
-    private Scanner scanner;
+    private final String playerName;
+    private final String difficulty;
+    private final int health;
+    private final int maxHealth;
+    private final int attack;
+    private int day;
+    private final ArrayList<String> inventory;
+    private final Scanner scanner;
 
     public Game(String name, String difficulty, Scanner scanner) {
         this.playerName = name;
@@ -33,6 +37,14 @@ public class Game {
 
     public void start() {
         System.out.println("Welcome " + playerName + "! You have chosen " + difficulty + " mode. Best of luck and be not afraid.");
+        inventory.add("stuff");
+        inventory.add("stuff");
+        inventory.add("stuff");
+        inventory.add("stuff");
+        inventory.add("other stuff");
+        inventory.add("other stuff");
+        inventory.add("other stuff");
+        inventory.add("other stuf");
         gameLoop();
     }
 
@@ -43,23 +55,22 @@ public class Game {
         while (day <= 20 && health != 0) {
             System.out.println("Day: " + day + " Player info: Health " + health + "/" + maxHealth + " Attack damage " + attack);
             showInventory();
+            System.out.println("Do you want to explore today? (y/n)");
+            String response = scanner.nextLine();
+            if (response.equals("y")) {
+                explore();
+            }
             day++;
         }
 
-        // only if the player is alive after the 20th day spawn a boss battle
+        if (health != 0) {
+            bossBattle();
+        }
 
-        //Show player their stats after the game ends
+        gameOverStats();
     }
 
     private void showInventory() {
-        inventory.add("stuff");
-        inventory.add("stuff");
-        inventory.add("stuff");
-        inventory.add("stuff");
-        inventory.add("other stuff");
-        inventory.add("other stuff");
-        inventory.add("other stuff");
-        inventory.add("other stuf");
         int n = inventory.toArray().length;
         String[] items = new String[n];
         System.out.println("Inventory: ");
@@ -70,16 +81,25 @@ public class Game {
                 int count = 0;
 
                 for (int j = 0; j < inventory.toArray().length; j++) {
-                    if (item.equals(inventory.get(i))) {
+                    String currentItem = inventory.get(j);
+                    if (currentItem.equals(item)) {
                         count++;
                     }
                 }
 
-                System.out.println(item + "(" + count + ")");
+                System.out.println(item + " (" + count + ")");
                 items[i] = item;
 
             }
         }
     }
+
+    private void explore() {
+
+    }
+
+    private void bossBattle() {}
+
+    private void gameOverStats() {}
 
 }
