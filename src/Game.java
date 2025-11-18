@@ -55,7 +55,7 @@ public class Game {
         while (day <= 20 && health != 0) {
             System.out.println("Day: " + day + " Player info: Health " + health + "/" + maxHealth + " Attack damage " + attack);
             showInventory();
-            System.out.println("Do you want to explore today? (y/n)");
+            System.out.print("Do you want to explore today? (y/n)");
             String response = scanner.nextLine();
             if (response.equals("y")) {
                 explore();
