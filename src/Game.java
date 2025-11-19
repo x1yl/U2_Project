@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Game {
     private final String playerName;
     private final String difficulty;
-    private final int health;
+    private int health;
     private final int maxHealth;
     private final int attack;
     private int day;
@@ -32,7 +32,7 @@ public class Game {
         }
 
         day = 1;
-        inventory = new ArrayList<String>();
+        inventory = new ArrayList<>();
     }
 
     public void start() {
@@ -95,7 +95,30 @@ public class Game {
     }
 
     private void explore() {
+        int random = (int) (Math.random() * 100);
+        if (difficulty.equals("hard")) {
+            if (random < 50) {
+                enemyFight();
+            } else if (random <= 55) {
+                int randomHeal = (int) (Math.random() * maxHealth);
+                heal(randomHeal);
+            } else if (random <= 85) {
+                poiEncounter();
+            }
+        }
+    }
 
+    private void poiEncounter() {
+    }
+
+    private void heal(int randomHeal) {
+        health += randomHeal;
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+    }
+
+    private void enemyFight() {
     }
 
     private void bossBattle() {}
