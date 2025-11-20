@@ -9,7 +9,10 @@ public class Game {
     private final int maxHealth;
     private final int attack;
     private int day;
+    private boolean isAlive;
     private final ArrayList<String> inventory;
+    private final String[] items;
+    private final String[] itemStats;
     private final Scanner scanner;
 
     public Game(String name, String difficulty, Scanner scanner) {
@@ -32,7 +35,10 @@ public class Game {
         }
 
         day = 1;
+        isAlive = true;
         inventory = new ArrayList<>();
+        items = new String[]{"stuff", "other stuff", "more stuff"};
+        itemStats = new String[]{"1", "5", "6 10"};
     }
 
     public void start() {
@@ -44,7 +50,7 @@ public class Game {
         inventory.add("other stuff");
         inventory.add("other stuff");
         inventory.add("other stuff");
-        inventory.add("other stuf");
+        inventory.add("more stuff");
         gameLoop();
     }
 
@@ -52,18 +58,20 @@ public class Game {
         //a while loop that runs for 20 days or whenever the player dies
         //Shows the day and player info
         //Option to explore or rest
-        while (day <= 20 && health != 0) {
+        while (day <= 20 && isAlive) {
             System.out.println("Day: " + day + " Player info: Health " + health + "/" + maxHealth + " Attack damage " + attack);
             showInventory();
             System.out.print("Do you want to explore today? (y/n)");
             String response = scanner.nextLine();
             if (response.equals("y")) {
                 explore();
+            } else {
+                heal(10);
             }
             day++;
         }
 
-        if (health != 0) {
+        if (isAlive) {
             bossBattle();
         }
 
@@ -104,15 +112,24 @@ public class Game {
                 heal(randomHeal);
             } else if (random <= 85) {
                 poiEncounter();
+            } else if (random <= 100) {
+                randomItem();
             }
         }
+    }
+
+    private void randomItem() {
+    int length = items.length;
+    int num = (int) (Math.random() * length);
+    String randomItem = items[num];
+    inventory.add(randomItem);
     }
 
     private void poiEncounter() {
     }
 
-    private void heal(int randomHeal) {
-        health += randomHeal;
+    private void heal(int healAmount) {
+        health += healAmount;
         if (health > maxHealth) {
             health = maxHealth;
         }
@@ -123,6 +140,12 @@ public class Game {
 
     private void bossBattle() {}
 
-    private void gameOverStats() {}
+    private void gameOverStats() {
+        if (isAlive) {
+            System.out.println("Congrats on surviving 20 day! You're built like a tiger. How about a harder mode.");
+        } else {
+            System.out.println("Aww unfortunate that you died. Maybe you should've been more careful. Try again.");
+        }
+    }
 
 }
