@@ -9,7 +9,7 @@ public class Game {
     private final int maxHealth;
     private final int attack;
     private int day;
-    private boolean isAlive;
+    private final boolean isAlive;
     private final ArrayList<String> inventory;
     private final String[] items;
     private final String[] itemStats;
@@ -43,14 +43,6 @@ public class Game {
 
     public void start() {
         System.out.println("Welcome " + playerName + "! You have chosen " + difficulty + " mode. Best of luck and be not afraid.");
-        inventory.add("stuff");
-        inventory.add("stuff");
-        inventory.add("stuff");
-        inventory.add("stuff");
-        inventory.add("other stuff");
-        inventory.add("other stuff");
-        inventory.add("other stuff");
-        inventory.add("more stuff");
         gameLoop();
     }
 
@@ -136,6 +128,22 @@ public class Game {
     }
 
     private void enemyFight() {
+        int randNum;
+        if (difficulty.equals("hard")) {
+            randNum = (int) (Math.random() * 100);
+        } else if (difficulty.equals("medium")) {
+            randNum = (int) (Math.random() * 90);
+        } else {
+            randNum = (int) (Math.random() * 80);
+        }
+
+        if (randNum <= 50) {
+            //hard boss
+        } else if (randNum <= 75) {
+            // medium
+        } else {
+            // easy
+        }
     }
 
     private void bossBattle() {}
