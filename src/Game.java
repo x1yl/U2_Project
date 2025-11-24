@@ -362,14 +362,87 @@ public class Game {
     private void forgeItem() {
         System.out.println();
         System.out.println("=== FORGE ===");
+        System.out.println("What do you want to forge?");
+        System.out.println("1. Iron Sword Tier 2 (requires 2x Iron Sword)");
+        System.out.println("2. Steel Sword Tier 2 (requires 2x Steel Sword)");
+        System.out.println("3. Diamond Sword Tier 2 (requires 2x Diamond Sword)");
+        System.out.println("4. Iron Sword Tier 3 (requires 3x Iron Sword Tier 2)");
+        System.out.println("5. Steel Sword Tier 3 (requires 3x Steel Sword Tier 2)");
+        System.out.println("6. Diamond Sword Tier 3 (requires 3x Diamond Sword Tier 2)");
+        System.out.print("Enter choice (or 0 to cancel): ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        String baseSword;
+        String tier2Sword;
+        String tier3Sword;
+        int tier2Stat;
+        int tier3Stat;
+
+        switch (choice) {
+            case 0:
+                System.out.println("Cancelled");
+                return;
+            case 1:
+                baseSword = "Iron Sword";
+                tier2Sword = "Iron Sword Tier 2";
+                tier2Stat = 10;
+                forge(baseSword, tier2Sword, tier2Stat, 2);
+                break;
+            case 2:
+                baseSword = "Steel Sword";
+                tier2Sword = "Steel Sword Tier 2";
+                tier2Stat = 12;
+                forge(baseSword, tier2Sword, tier2Stat,2);
+                break;
+
+            case 3:
+                baseSword = "Diamond Sword";
+                tier2Sword = "Diamond Sword Tier 2";
+                tier2Stat = 16;
+                forge(baseSword, tier2Sword, tier2Stat, 2);
+                break;
+
+            case 4:
+                tier2Sword = "Iron Sword Tier 2";
+                tier3Sword = "Iron Sword Tier 3";
+                tier3Stat = 16;
+                forge(tier2Sword, tier3Sword, tier3Stat, 3);
+                break;
+            case 5:
+                tier2Sword = "Steel Sword Tier 2";
+                tier3Sword = "Steel Sword Tier 3";
+                tier3Stat = 22;
+                forge(tier2Sword, tier3Sword, tier3Stat, 3);
+                break;
+            case 6:
+                break;
+        }
+    }
+
+    private void forge(String sword, String nextTierSword, int stat, int count) {
+
+        if (countItem(sword) >= count) {
+            removeItem(sword, 2);
+            inventory.add(nextTierSword);
+            System.out.println("Successfully forged " + nextTierSword + " (+" + stat + " attack)!");
+            autoEquipBestSword();
+        } else {
+            System.out.println("Not enough " + sword + "! You need" + count + ".");
+        }
     }
 
     private void autoEquipBestSword() {
         String bestSword = "None";
         int bestDamage = 0;
 
-        String[] allSwords = {"Iron Sword", "Steel Sword", "Diamond Sword"};
-        int[] allSwordDamages = {8, 12, 16};
+        String[] allSwords = {"Iron Sword", "Steel Sword", "Diamond Sword",
+                "Iron Sword Tier 2", "Steel Sword Tier 2", "Diamond Sword Tier 2",
+                "Iron Sword Tier 3", "Steel Sword Tier 3", "Diamond Sword Tier 3"};
+        int[] allSwordDamages = {8, 12, 16,
+                18, 24, 32,
+                34, 46, 60};
 
         for (int i = 0; i < allSwords.length; i++) {
             if (inventory.contains(allSwords[i]) && allSwordDamages[i] > bestDamage) {
@@ -406,5 +479,11 @@ public class Game {
             }
         }
         return count;
+    }
+    
+    private void removeItem(String item, int count) {
+        for (int i = 0; i < count; i++) {
+            inventory.remove(item);
+        }
     }
 }
