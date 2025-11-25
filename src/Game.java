@@ -103,7 +103,7 @@ public class Game {
         int n = inventory.toArray().length;
         String[] items = new String[n];
         System.out.println("Inventory: ");
-        for (int i = 0; i < inventory.toArray().length; i++) {
+        for (int i = 0; i < n; i++) {
             String item = inventory.get(i);
             if (!Arrays.asList(items).contains(item)) {
 
@@ -192,7 +192,7 @@ public class Game {
                     useItem();
                     enemyDamage = calculateRandomDamage(enemyAttack);
                     health -= enemyDamage;
-                    System.out.println("While using item, enemy dealt " + enemyDamage + " damage. Your health: " + health);
+                    System.out.println("While using item, enemy dealt " + enemyDamage + " damage (max: " + enemyAttack + "). Your health: " + health);
                     break;
                 case 3:
                     int runChance = (int) (Math.random() * 100);
@@ -201,15 +201,16 @@ public class Game {
                         return;
                     } else {
                         System.out.println("You failed to escape!");
-                        health -= enemyAttack;
-                        System.out.println("Enemy dealt " + enemyAttack + " damage while you tried to flee. Your health: " + health);
+                        enemyDamage = calculateRandomDamage(enemyAttack);
+                        health -= enemyDamage;
+                        System.out.println("Enemy dealt " + enemyDamage + " damage (max: " + enemyAttack + "). Your health: " + health);
                     }
                     break;
                 default:
                     System.out.println("Invalid choice! Enemy attacks while you hesitate!");
                     enemyDamage = calculateRandomDamage(enemyAttack);
                     health -= enemyDamage;
-                    System.out.println("Enemy dealt " + enemyAttack + " damage. Your health: " + health);
+                    System.out.println("Enemy dealt " + enemyDamage + " damage (max: " + enemyAttack + "). Your health: " + health);
             }
         }
 
@@ -258,13 +259,13 @@ public class Game {
                     useItem();
                     bossDamage = calculateRandomDamage(bossAttack);
                     health -= bossDamage;
-                    System.out.println("While using item, boss dealt " + bossDamage + " damage. Your health: " + health);
+                    System.out.println("While using item, boss dealt " + bossDamage + " damage (max: " + bossAttack + "). Your health: " + health);
                     break;
                 default:
                     System.out.println("Invalid choice! Boss attacks while you hesitate!");
                     bossDamage = calculateRandomDamage(bossAttack);
                     health -= bossDamage;
-                    System.out.println("Boss dealt " + bossAttack + " damage. Your health: " + health);
+                    System.out.println("Boss dealt " + bossDamage + " damage (max: " + bossAttack + "). Your health: " + health);
             }
         }
 
@@ -394,7 +395,7 @@ public class Game {
                 baseSword = "Steel Sword";
                 tier2Sword = "Steel Sword Tier 2";
                 tier2Stat = 12;
-                forge(baseSword, tier2Sword, tier2Stat,2);
+                forge(baseSword, tier2Sword, tier2Stat, 2);
                 break;
 
             case 3:
@@ -417,6 +418,10 @@ public class Game {
                 forge(tier2Sword, tier3Sword, tier3Stat, 3);
                 break;
             case 6:
+                tier2Sword = "Diamond Sword Tier 2";
+                tier3Sword = "Diamond Sword Tier 3";
+                tier3Stat = 28;
+                forge(tier2Sword, tier3Sword, tier3Stat, 3);
                 break;
         }
     }
@@ -424,7 +429,7 @@ public class Game {
     private void forge(String sword, String nextTierSword, int stat, int count) {
 
         if (countItem(sword) >= count) {
-            removeItem(sword, 2);
+            removeItem(sword, count);
             inventory.add(nextTierSword);
             System.out.println("Successfully forged " + nextTierSword + " (+" + stat + " attack)!");
             autoEquipBestSword();
@@ -480,7 +485,7 @@ public class Game {
         }
         return count;
     }
-    
+
     private void removeItem(String item, int count) {
         for (int i = 0; i < count; i++) {
             inventory.remove(item);
